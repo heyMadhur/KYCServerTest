@@ -9,19 +9,19 @@
     ],
     "routes": [
         {
+            "src": "/get_product_info",
+            "dest": "/",
+            "methods": ["GET"],
+            "headers": {
+              "x-vercel-bridge-timeout": "40s"  
+            }
+          },
+        {
             "src":"/(.*)",
-            "dest":"/"
+            "dest":"/",
+            "headers": {
+              "x-vercel-bridge-timeout": "20s"
+            }
         }
-    ],
-    "functions": {
-    "api/test.js": {
-      "maxDuration": 40 
-    },
-    "api/*.js": {
-      "maxDuration": 45 
-    },
-    "src/api/*.js": {
-      "maxDuration": 45 
-    }
-  }
+    ]
 }
