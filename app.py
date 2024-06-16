@@ -17,6 +17,12 @@ app = Flask(__name__)
 #     else:
 #         return jsonify({'error': 'No barcode detected'}), 404
 
+@app.route('/')
+def start():
+    return "The KYC Server is running"
+
+
+
 @app.route('/get_product_info', methods=['POST'])
 def get_product_info_server():
     barcode = request.get_json()['barcode']
