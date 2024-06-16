@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from Product.Required_JSON import call_api
 from Health_Score.Health_Score_Generator import evaluate_health
 
