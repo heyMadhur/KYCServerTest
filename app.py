@@ -34,7 +34,5 @@ def get_product_info():
     else:
         # This case should not occur because call_api handles the None case and returns a tuple with an error message
         return jsonify({'error': 'Unexpected error occurred'}), 500
-    
-if __name__ == '__main__':
-    app.run(debug=True)
+
 
