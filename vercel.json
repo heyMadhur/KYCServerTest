@@ -12,5 +12,16 @@
             "src":"/(.*)",
             "dest":"/"
         }
-    ]
+    ],
+    "functions": {
+    "api/test.js": {
+      "maxDuration": 40 
+    },
+    "api/*.js": {
+      "maxDuration": 45 
+    },
+    "src/api/*.js": {
+      "maxDuration": 45 
+    }
+  }
 }
