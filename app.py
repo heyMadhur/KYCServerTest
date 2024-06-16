@@ -4,6 +4,7 @@ from Product.Required_JSON import call_api
 from Health_Score.Health_Score_Generator import evaluate_health
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route("/")
 def start():
@@ -35,5 +36,3 @@ def get_product_info():
     else:
         # This case should not occur because call_api handles the None case and returns a tuple with an error message
         return jsonify({'error': 'Unexpected error occurred'}), 500
-
-
