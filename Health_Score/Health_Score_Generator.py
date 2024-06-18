@@ -18,31 +18,31 @@ import json
 
 def nutrient_score(product):
     nutrients= product.get("product_nutrients")
+    print("Nutrients: ", nutrients)
     try:
-        response,explanation= agent_cohere(str(nutrients))
-        response= json.loads(response)
-        score= response.get("Score")
-        return float(score), explanation, response
+        response= agent_cohere(str(nutrients))
+        # print("Inside Model Response")
+        # print(type(response))
+        # print("HEALTH PAGE FUNCTION")
+        # print(response)
+        # print("------------------------------------------------HEALTH PAGE FUNCTION-------------------------")
+        try:
+            response= json.loads(response)
+            # print(response)
+        except Exception as e:
+            print("Error in parsing response: ", e)
+        return response
     except Exception as e:
         print("Error in Nutrient Score: ", e)
-        return 0, "", {}
-
-def calculate_eco_score(product):
-    ecoscore=product.get("product_ecoscore")
-    if ecoscore:
-        grade= ecoscore.get("grade")
-        score= ecoscore.get("score")
-        try:
-            return float(score), grade
-        except (ValueError, TypeError):
-            return 0, grade
-    else:
-        return 0, "N/A"
-    
+        return {}
 
 
 def evaluate_health(product):
-    nutri_score, explanation, response= nutrient_score(product)
+    # print("PRODUCT INFO")
+    # print(product)
+    print("------------------------------------PRODUCT INFO-----------------------------------------------------")
+    response= nutrient_score(product)
+    print("-----------------------------------Model Response--------------------------------------------")
     def_nutri= response.get("Nutrients less than Sufficient Quantity")
     suf_nutri= response.get("Nutrients with Sufficient Quantity")
     exc_nutri= response.get("Nutrients with Excessive Quantity")
@@ -51,22 +51,27 @@ def evaluate_health(product):
     print("Nutrients with Sufficient Quantity", suf_nutri)
     print("Nutrients with Excessive Quantity", exc_nutri)
     
-    eco_score, eco_grade= calculate_eco_score(product)
+    eco_score=product.get("product_ecoscore")
     
         # Ensure nutri_score and eco_score are numeric
     try:
-        nutri_score = float(nutri_score)
+        nutri_score = response.get("Score")
+        print("Nutrition Score: ", nutri_score)
+        nutri_score = float(nutri_score) 
     except (ValueError, TypeError):
         nutri_score = 0
     
     try:
-        eco_score = float(eco_score)
+        eco_score = float(eco_score) 
     except (ValueError, TypeError):
         eco_score = 0
     
-    Overall_Health_Score= 0.6*nutri_score + 0.4* eco_score
+    overall_health_score= 0.6*nutri_score + 0.4* eco_score
     
-    return Overall_Health_Score, eco_grade, explanation, def_nutri, suf_nutri, exc_nutri
+    response['final_score'] = str (overall_health_score)
+    print("-----------------------------Evaluate HealthScore-------------------------------------")
+    print(response)
+    return response
     
     
     

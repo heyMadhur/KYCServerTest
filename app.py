@@ -36,22 +36,16 @@ def get_product_score():
     
     print("Fetching Product Info")
     response= call_api(barcode)
-    print("WE ARE PRINTING")
     
     if response:
-        Health_Score, eco_grade, explanation, def_nutri, suf_nutri, exc_nutri = evaluate_health(response)
-        return jsonify ({'rank':{
-            'Health Score': Health_Score,
-            'Grade': eco_grade.capitalize(),
-            'Nutrient Analysis': {
-                'Deficient Nutrients': def_nutri,
-                'Sufficient Nutrients': suf_nutri,
-                'Excessive Nutrients': exc_nutri
-            },
-            'Inference': explanation
-        }})
+        scores_data = evaluate_health(response)
+        final_response= {**response, **scores_data}
+        return jsonify(final_response)
         
     
     else:
         # This case should not occur because call_api handles the None case and returns a tuple with an error message
         return jsonify({'error': 'Unexpected error occurred'}), 500
+    
+if __name__ == '__main__':
+    app.run(debug=True)

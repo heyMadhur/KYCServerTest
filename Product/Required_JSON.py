@@ -39,7 +39,8 @@ def get_required_json(product_info):
             'product_pnns_g2': product.get('pnns_groups_2', 0),
             'product_allergens': product.get('allergens', 0),
             'product_allergens_from_ingredients': product.get('allergens_from_ingredients', 0),
-            'product_ecoscore': product.get('ecoscore_data', 0),
+            'product_ecoscore': product.get('ecoscore_score', 0),
+            'product_ecograde': product.get('ecoscore_grade', 0),            
             'product_packaging': product.get('packagings', 0),
         }
     else:
@@ -51,6 +52,7 @@ def call_api(barcode):
     response = requests.get(api_url+barcode+".json", verify=True)
     if response.status_code == 200:
         product_info = response.json()
+        # print(response)
         req_json= get_required_json(product_info)
         if req_json:
             return req_json
