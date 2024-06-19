@@ -18,7 +18,6 @@ import json
 
 def nutrient_score(product):
     nutrients= product.get("product_nutrients")
-    print("Nutrients: ", nutrients)
     try:
         response= agent_cohere(str(nutrients))
         # print("Inside Model Response")
@@ -38,25 +37,14 @@ def nutrient_score(product):
 
 
 def evaluate_health(product):
-    # print("PRODUCT INFO")
-    # print(product)
-    print("------------------------------------PRODUCT INFO-----------------------------------------------------")
     response= nutrient_score(product)
-    print("-----------------------------------Model Response--------------------------------------------")
-    def_nutri= response.get("Nutrients less than Sufficient Quantity")
-    suf_nutri= response.get("Nutrients with Sufficient Quantity")
-    exc_nutri= response.get("Nutrients with Excessive Quantity")
-    
-    print("Nutrients less than Sufficient Quantity", def_nutri)
-    print("Nutrients with Sufficient Quantity", suf_nutri)
-    print("Nutrients with Excessive Quantity", exc_nutri)
+
     
     eco_score=product.get("product_ecoscore")
     
         # Ensure nutri_score and eco_score are numeric
     try:
         nutri_score = response.get("Score")
-        print("Nutrition Score: ", nutri_score)
         nutri_score = float(nutri_score) 
     except (ValueError, TypeError):
         nutri_score = 0
@@ -69,8 +57,7 @@ def evaluate_health(product):
     overall_health_score= 0.6*nutri_score + 0.4* eco_score
     
     response['final_score'] = str (overall_health_score)
-    print("-----------------------------Evaluate HealthScore-------------------------------------")
-    print(response)
+
     return response
     
     

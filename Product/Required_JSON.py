@@ -50,6 +50,8 @@ def get_required_json(product_info):
 
 def call_api(barcode):
     response = requests.get(api_url+barcode+".json", verify=True)
+    print("------------------------------------CALL API---------------------------------")
+    print(response)
     if response.status_code == 200:
         product_info = response.json()
         # print(response)

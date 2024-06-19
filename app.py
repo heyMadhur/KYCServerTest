@@ -19,7 +19,6 @@ def get_product_info():
     
     print("Fetching Product Info")
     response= call_api(barcode)
-    print("WE ARE PRINTING")
     
     if response:
         return response
@@ -37,7 +36,11 @@ def get_product_score():
     print("Fetching Product Info")
     response= call_api(barcode)
     
-    if response:
+    # print("---------------------------------------response---------------------------------------")
+    # print(type(response))
+    
+    if not isinstance(response, tuple):
+        # print("INDIE IF--------------------------------------------------")
         scores_data = evaluate_health(response)
         final_response= {**response, **scores_data}
         return jsonify(final_response)
